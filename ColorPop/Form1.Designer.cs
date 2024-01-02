@@ -103,10 +103,6 @@ namespace ColorPop
             this.threadsNumber.TabIndex = 0;
             this.threadsNumber.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.threadsNumber.Value = 1;
-            threadsNumber.ValueChanged += (sender, e) =>
-            {
-                label4.Text = threadsNumber.Value.ToString();
-            };
             // 
             // groupBox2
             // 
@@ -172,6 +168,7 @@ namespace ColorPop
             this.startButton.TabIndex = 6;
             this.startButton.Text = "Start";
             this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
             // label1
             // 

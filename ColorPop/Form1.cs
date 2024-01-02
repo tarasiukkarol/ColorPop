@@ -13,6 +13,7 @@ using System.Drawing.Imaging;
 using System.Diagnostics;
 using System.Reflection.Emit;
 using System.Windows.Media.Imaging;
+using ColorPop;
 
 namespace ColorPop
 {
@@ -32,6 +33,11 @@ namespace ColorPop
             pictureBefore.Click += pictureBox1_Click;
             stopwatch = new Stopwatch();
             threadsNumber.Value = System.Environment.ProcessorCount;
+            label4.Text = System.Environment.ProcessorCount.ToString();
+            threadsNumber.ValueChanged += (sender, e) =>
+            {
+                label4.Text = threadsNumber.Value.ToString();
+            };
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -100,25 +106,25 @@ namespace ColorPop
         {
             if ((ASM.Checked || Cpp.Checked) && !pictureBefore.Image.Equals(null))
             {
-                String sepiaMechanism = groupBox1.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked).Name;
+                String ColorPopMechanism = groupBox2.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked).Name;
                 BitmapSource bs = Bmp.BitmapToBitmapSource(pictureOriginal);
                 pixels = Bmp.ToBmpBGRArray(bs);
                 double[] wyniki = new double[320];
-                //SepiaManager manager = null;
+                TypeManager manager = null;
                 if (ASM.Checked)
                 {
-                    //manager = new SepiaManager(bs, SepiaMechanismType.Assembly, threadsNumber.Value);
+                    //manager = new TypeManager(bs, ColorPopMechanismType.Assembly, threadsNumber.Value);
                 }
                 if (Cpp.Checked)
                 {
-                    //manager = new SepiaManager(bs, SepiaMechanismType.Cpp, threadsNumber.Value);
+                    manager = new TypeManager(bs, ColorPopMechanismType.Cpp, threadsNumber.Value);
                 }
 
                 TimeSpan t;
-                //BitmapSource bsa = manager.ExecuteEffect(out t);
-                //pictureAfter.Image = ScaleBitmap(Bmp.BitmapFromSource(bsa), pictureAfter);
-                //pictureSepia = Bmp.BitmapFromSource(bsa);
-                //time.Text = t.ToString();
+                BitmapSource bsa = manager.ExecuteEffect(out t);
+                pictureAfter.Image = ScaleBitmap(Bmp.BitmapFromSource(bsa), pictureAfter);
+                pictureResault = Bmp.BitmapFromSource(bsa);
+                time.Text = t.ToString();
             }
 
         }
@@ -130,7 +136,7 @@ namespace ColorPop
                 saveDialog.FileName = "moj_plik";
                 saveDialog.Filter = "Plik graficzny (*.bmp)|*.BMP; *.bmp";
                 saveDialog.ShowDialog();
-                //pictureSepia.Save(saveDialog.FileName);
+                pictureResault.Save(saveDialog.FileName);
                 saveDialog.Dispose();
             }
         }
