@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace ColorPop
         private TypeManager() { }
 
         public TypeManager(BitmapSource bitmapImage,
-            ColorPopMechanismType mechanismType,
+            ColorPopMechanismType mechanismType, float[] chosenColor,
             int numberOfThreads)
         {
             _oldBitmap = bitmapImage;
@@ -37,7 +38,7 @@ namespace ColorPop
                 else
                     pieceEnd = pieceLenght * (tempPartNumber + 1) - 1;
                 _ColorPopInterfaces.Add(MechanismFactory.Create(
-                        mechanismType,
+                        mechanismType, chosenColor,
                         bitmapImage.Format.BitsPerPixel / _bitsInByte,
                         pieceLenght * tempPartNumber,
                         pieceEnd));

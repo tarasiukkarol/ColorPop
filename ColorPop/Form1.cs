@@ -27,7 +27,9 @@ namespace ColorPop
         private Bitmap pictureOriginal;
         private Bitmap pictureResault;
         private float[] pixels;
-        public Form1()
+        private Color pixelColor;
+        private float[] chosenColor = new float[3];
+    public Form1()
         {
             InitializeComponent();
             pictureBefore.Click += pictureBox1_Click;
@@ -111,13 +113,17 @@ namespace ColorPop
                 pixels = Bmp.ToBmpBGRArray(bs);
                 double[] wyniki = new double[320];
                 TypeManager manager = null;
+                chosenColor[0] = pixelColor.R;
+                chosenColor[1] = pixelColor.G;
+                chosenColor[2] = pixelColor.B;
+
                 if (ASM.Checked)
                 {
                     //manager = new TypeManager(bs, ColorPopMechanismType.Assembly, threadsNumber.Value);
                 }
                 if (Cpp.Checked)
                 {
-                    manager = new TypeManager(bs, ColorPopMechanismType.Cpp, threadsNumber.Value);
+                    manager = new TypeManager(bs, ColorPopMechanismType.Cpp, chosenColor, threadsNumber.Value);
                 }
 
                 TimeSpan t;
@@ -147,7 +153,7 @@ namespace ColorPop
             Point formPos = PointToClient(cursorPos);
 
             // Get the pixel color at the click position
-            Color pixelColor = GetPixelColor(formPos);
+            pixelColor = GetPixelColor(formPos);
 
             panel1.BackColor = pixelColor;
             // Do something with the obtained color, like displaying it in a text box

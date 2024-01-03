@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +13,10 @@ namespace ColorPop
         protected int _startIndex;
         protected int _endIndex;
         protected int _bytesPerPixel;
-
-        public ColorPopInterface(int bytesPerPixel, int startIndex, int endIndex)
+        protected float[] _chosenColor;
+        public ColorPopInterface(float[] chosenColor, int bytesPerPixel, int startIndex, int endIndex)
         {
+            _chosenColor = chosenColor;
             _startIndex = startIndex;
             _endIndex = endIndex;
             _bytesPerPixel = bytesPerPixel;
