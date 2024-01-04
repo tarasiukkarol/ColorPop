@@ -119,7 +119,7 @@ namespace ColorPop
 
                 if (ASM.Checked)
                 {
-                    //manager = new TypeManager(bs, ColorPopMechanismType.Assembly, threadsNumber.Value);
+                    manager = new TypeManager(bs, ColorPopMechanismType.Assembly, chosenColor, threadsNumber.Value);
                 }
                 if (Cpp.Checked)
                 {

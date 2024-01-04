@@ -158,6 +158,7 @@ namespace ColorPop
             this.saveButton.TabIndex = 5;
             this.saveButton.Text = "Save Image";
             this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // startButton
             // 

@@ -14,7 +14,7 @@ namespace ColorPop
             switch (mechanismType)
             {
                 case ColorPopMechanismType.Assembly:
-                    //return new SepiaAssembly(bytesPerPixel, startIndex, endIndex);
+                    return new ColorPopAssembler(chosenColor, bytesPerPixel, startIndex, endIndex);
                 case ColorPopMechanismType.Cpp:
                     return new ColorPopCpp(chosenColor, bytesPerPixel, startIndex, endIndex);
                 default:
