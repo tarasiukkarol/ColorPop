@@ -12,6 +12,7 @@ namespace ColorPop
 {
     public static class Bmp
     {
+        // Method to convert BitmapSource to an array of floats (representing BGR pixels)
         public static float[] ToBmpBGRArray(this BitmapSource bitmapSource)
         {
             int stride = bitmapSource.PixelWidth * (bitmapSource.Format.BitsPerPixel / 8);
@@ -24,7 +25,7 @@ namespace ColorPop
             return floatPixels;
         }
 
-        public static Bitmap BitmapFromSource(BitmapSource source)
+        public static Bitmap BitmapFromSource(BitmapSource source) // Method to create a Bitmap from a BitmapSource
         {
             using (MemoryStream outStream = new MemoryStream())
             {
@@ -37,6 +38,7 @@ namespace ColorPop
             }
         }
 
+        // Method to convert System.Drawing.Bitmap to BitmapSource
         public static BitmapSource BitmapToBitmapSource(System.Drawing.Bitmap source)
         {
             using (MemoryStream memory = new MemoryStream())

@@ -11,6 +11,7 @@ namespace ColorPop
 {
     public static class BytesArray
     {
+        // Method to convert byte array representing BGR pixels to a BitmapSource image
         public static BitmapSource BmpBGRArrayToImage(
            this byte[] pixels, int width, int height, PixelFormat pixelFormat)
         {
@@ -23,7 +24,7 @@ namespace ColorPop
             return bitmap;
         }
 
-        public static float[] ToFloatArray(this byte[] byteArray)
+        public static float[] ToFloatArray(this byte[] byteArray)// Method to convert byte array to an array of floats
         {
             var newFloatArray = new float[byteArray.Length];
             for (int i = 0; i < newFloatArray.Length; i++)

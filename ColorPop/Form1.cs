@@ -19,23 +19,20 @@ namespace ColorPop
 {
     public partial class Form1 : Form
     {
-        [DllImport(@"C:\Users\karol\source\repos\ja\ColorPop\x64\Debug\assembler.dll")]
-        static extern void ASMtoMONO(short[] rightChannel, short[] leftChannel, int startIndex, int endIndex);
-
         private Stopwatch stopwatch;
-        //private SepiaManager sm;
         private Bitmap pictureOriginal;
-        private Bitmap pictureResault;
+        private Bitmap pictureResult;
         private float[] pixels;
         private Color pixelColor;
-        private float[] chosenColor = new float[3];
+        private float[] chosenColor = new float[4];
     public Form1()
         {
             InitializeComponent();
             pictureBefore.Click += pictureBox1_Click;
             stopwatch = new Stopwatch();
             threadsNumber.Value = System.Environment.ProcessorCount;
-            label4.Text = System.Environment.ProcessorCount.ToString();
+
+            label4.Text = System.Environment.ProcessorCount.ToString(); // set to max threads at the start
             threadsNumber.ValueChanged += (sender, e) =>
             {
                 label4.Text = threadsNumber.Value.ToString();
@@ -46,8 +43,8 @@ namespace ColorPop
         {
 
         }
-
-        public void openImage()
+    
+        public void openImage()// Method to open an image file
         {
             OpenFileDialog openDialog = new OpenFileDialog
             {
@@ -64,11 +61,11 @@ namespace ColorPop
             }
         }
 
-        public bool ThumbnailCallback()
+        public bool ThumbnailCallback() // Method for image thumbnail generation
         {
             return false;
         }
-        private Bitmap ScaleBitmap(Bitmap bmp, PictureBox picBox)
+        private Bitmap ScaleBitmap(Bitmap bmp, PictureBox picBox) // Method to scale a Bitmap to fit a PictureBo
         {
 
             float ratio = 1.0f;
@@ -99,23 +96,23 @@ namespace ColorPop
             return bmp;
         }
 
-        private void LoadButton_Click(object sender, EventArgs e)
+        private void LoadButton_Click(object sender, EventArgs e)// Event handler for LoadButton click
         {
             openImage();
             pictureBefore.Image = ScaleBitmap(pictureOriginal, pictureBefore);
         }
-        private void startButton_Click(object sender, EventArgs e)
+        private void startButton_Click(object sender, EventArgs e)// Event handler for startButton click
         {
             if ((ASM.Checked || Cpp.Checked) && !pictureBefore.Image.Equals(null))
             {
                 String ColorPopMechanism = groupBox2.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked).Name;
                 BitmapSource bs = Bmp.BitmapToBitmapSource(pictureOriginal);
                 pixels = Bmp.ToBmpBGRArray(bs);
-                double[] wyniki = new double[320];
                 TypeManager manager = null;
-                chosenColor[0] = pixelColor.R;
+                chosenColor[3] = pixelColor.A;
+                chosenColor[2] = pixelColor.R;
                 chosenColor[1] = pixelColor.G;
-                chosenColor[2] = pixelColor.B;
+                chosenColor[0] = pixelColor.B;
 
                 if (ASM.Checked)
                 {
@@ -129,20 +126,20 @@ namespace ColorPop
                 TimeSpan t;
                 BitmapSource bsa = manager.ExecuteEffect(out t);
                 pictureAfter.Image = ScaleBitmap(Bmp.BitmapFromSource(bsa), pictureAfter);
-                pictureResault = Bmp.BitmapFromSource(bsa);
+                pictureResult = Bmp.BitmapFromSource(bsa);
                 time.Text = t.ToString();
             }
 
         }
-        private void SaveButton_Click(object sender, EventArgs e)
+        private void SaveButton_Click(object sender, EventArgs e)// Event handler for SaveButton click
         {
-            if (pictureResault != null)
+            if (pictureResult != null)
             {
                 SaveFileDialog saveDialog = new SaveFileDialog();
-                saveDialog.FileName = "moj_plik";
+                saveDialog.FileName = "ColorPop";
                 saveDialog.Filter = "Plik graficzny (*.bmp)|*.BMP; *.bmp";
                 saveDialog.ShowDialog();
-                pictureResault.Save(saveDialog.FileName);
+                pictureResult.Save(saveDialog.FileName);
                 saveDialog.Dispose();
             }
         }
@@ -156,11 +153,11 @@ namespace ColorPop
             pixelColor = GetPixelColor(formPos);
 
             panel1.BackColor = pixelColor;
-            // Do something with the obtained color, like displaying it in a text box
+            // Display in a text box
             textBox1.Text = $"Color: R={pixelColor.R}, G={pixelColor.G}, B={pixelColor.B}";
         }
 
-        private Color GetPixelColor(Point position)
+        private Color GetPixelColor(Point position)// Method to get the color of a pixel in the original image
         {
             if (pictureOriginal != null && pictureBefore.Image != null)
             {

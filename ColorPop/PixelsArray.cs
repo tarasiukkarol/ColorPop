@@ -10,8 +10,7 @@ namespace ColorPop
 {
     public static class PixelsArray
     {
-        public static BitmapSource BmpBGRArrayToImage(
-                this float[] pixels, int width, int height, PixelFormat pixelFormat)
+        public static BitmapSource BmpBGRArrayToImage(this float[] pixels, int width, int height, PixelFormat pixelFormat)
         {
             byte[] byteArray = pixels.ToByteArray();
             return byteArray.BmpBGRArrayToImage(width, height, pixelFormat);
